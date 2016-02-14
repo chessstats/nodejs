@@ -8,7 +8,6 @@ function httpPostAsync() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      document.getElementById("demo").innerHTML = xhttp.responseText;
     }
   };
   xhttp.open("POST", "/process_post", true);
@@ -21,7 +20,7 @@ function httpGetAsync(theUrl, callback)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
+        	callback(xmlHttp.responseText)
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
@@ -29,19 +28,20 @@ function httpGetAsync(theUrl, callback)
 
 var timeleft=5000;
 
-function serverOk(){
+function serverOk(content){
 	timeleft=5000;
+	document.getElementById("anim").innerHTML = content;
 }
 
 function checkServer(){
-	timeleft-=1000;
+	timeleft-=200;
 	if(timeleft<=0){
 		window.close();
 	}
 	httpGetAsync("/check",serverOk);
 }
 
-setInterval(checkServer,1000);
+setInterval(checkServer,200);
 
 </script>
 
@@ -49,13 +49,6 @@ setInterval(checkServer,1000);
 
 <body>
 
-<img src="flagusa.png">
-
-<div id="demo">response here</div>
-
-<form action="http://127.0.0.1:8081/process_post" method="POST">
-First Name: <input id="firstname" type="text" name="first_name">
-<input type="button" value="Send" onclick="httpPostAsync();"></button>
-</form>
+<div id="anim"></div>
 
 </body>

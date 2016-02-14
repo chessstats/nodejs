@@ -11,20 +11,43 @@ var fs = require("fs");
 var open=require("open");
 
 var i=0;
+var period=100;
+var r=150;
+var center=150;
 
 var timeleft=5000;
 
 app.get('/check', function (req, res) {
    timeleft=5000;
-   res.send('ok');
+   var fish = fs.readFileSync('www/fish.svg').toString();
+   //console.log("fish:"+fish)
+   str=fish;
+   var omega=-i/period*2*Math.PI;
+   var deg=-i/period*360;
+   var s=Math.sin(omega);
+   var c=Math.cos(omega);
+   var dx=r*c+center;
+   var dy=r*s+center;
+   //console.log("dx "+dx+" dy "+dy+" deg "+deg);
+   str=str.replace('<g id="trans"','<g id="trans" transform="translate('+dx+' '+dy+')"')
+   str=str.replace('<g id="rot"','<g id="rot" transform="rotate('+(deg-90)+' 60 60)"')
+   res.send(str);
+   var pref="";
+   if(i<10){
+    pref="0"
+   }
+   if(i<period){
+    fs.writeFileSync("c:/unzip/pngs/"+pref+i+".svg",str)
+    }
+   i++;
 })
 
 setInterval(function(){
-	timeleft-=1000;
+	timeleft-=200;
 	if(timeleft<=0){
 		process.exit();
 	}
-},1000);
+},200);
 
 app.post('/process_post', urlencodedParser, function (req, res) {
 
