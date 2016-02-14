@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+const spawn = require('child_process').spawn;
+
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use(express.static('www'));
@@ -68,4 +70,6 @@ var server = app.listen(8081, function () {
 
 })
 
-open('http://127.0.0.1:8081/');
+//open('http://127.0.0.1:8081/');
+
+const ls = spawn("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", ['--kiosk','http://127.0.0.1:8081/']);
