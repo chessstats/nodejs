@@ -5,3 +5,6 @@
 
 *.bat
 
+!/pngs/del.bat
+
+
